@@ -4,18 +4,25 @@ function consumiendoapi() {
     .value.trim()
     .toLowerCase();
 
-  // Verificar si el input está vacío
   if (!numeroPokemon) {
     Swal.fire("Por favor, introduce un número o nombre de Pokémon.");
     return;
   }
 
-  // Comprobar si es un número negativo
   const numero = parseInt(numeroPokemon);
-  if (numero < 1) {
+  if (numero < 1 && isNaN(numero)) {
     Swal.fire({
-      title: "Es ese un número negativo?",
-      text: "Por favor ingresa un número positivo.",
+      title: "Entrada inválida",
+      text: "Por favor, ingresa un número positivo o el nombre de un Pokémon.",
+      icon: "question",
+    });
+    return;
+  }
+
+  if (/[^\w\s]/.test(numeroPokemon)) {
+    Swal.fire({
+      title: "Entrada no válida",
+      text: "Por favor, ingresa un número positivo o el nombre de un Pokémon sin símbolos.",
       icon: "question",
     });
     return;
@@ -29,16 +36,16 @@ function consumiendoapi() {
       const { name, id, weight, height, sprites } = datos;
 
       const html = `
-              <div class="pokemon-card">
-                  <img src="${sprites.front_default}" alt="${name}">
-                  <div class="pokemon-info">
-                      <p>Nombre: ${name}</p>
-                      <p>ID: ${id}</p>
-                      <p>Altura: ${height}</p>
-                      <p>Peso: ${weight}</p>
-                  </div>
-              </div>
-          `;
+        <div class="pokemon-card">
+          <img src="${sprites.front_default}" alt="${name}">
+          <div class="pokemon-info">
+            <p>Nombre: ${name}</p>
+            <p>ID: ${id}</p>
+            <p>Altura: ${height}</p>
+            <p>Peso: ${weight}</p>
+          </div>
+        </div>
+      `;
 
       $("#contenedor").prepend(html);
       guardarPokemonEnLocalStorage({ name, id, weight, height, sprites });
@@ -51,10 +58,10 @@ function consumiendoapi() {
         color: "#716add",
         background: "#fff url(/images/trees.png)",
         backdrop: `
-                  rgba(0,0,123,0.4)
-                  left top
-                  no-repeat
-              `,
+          rgba(0,0,123,0.4)
+          left top
+          no-repeat
+        `,
       });
     },
   });
