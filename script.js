@@ -44,6 +44,8 @@ function consumiendoapi() {
             <p>Altura: ${height}</p>
             <p>Peso: ${weight}</p>
           </div>
+              <br>
+
         </div>
       `;
 
@@ -66,4 +68,3 @@ function consumiendoapi() {
     },
   });
 }
-//s
